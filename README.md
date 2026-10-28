@@ -19,6 +19,8 @@ It asks for your Mac password **once**. After that, `lid` never asks again.
 | `lid on-120` | Stay awake with the lid closed for 120 minutes (any number works) |
 | `lid check` | Show if it is on and how much time is left |
 | `lid off` | Go back to normal sleep now |
+| `lid update` | Get the latest version (asks your password) |
+| `lid uninstall` | Remove lid completely (asks your password) |
 | `lid help` | List all commands |
 
 Example: `lid on-90`, close the lid, and your Mac keeps running for 1h 30m. Then it goes back to normal sleep on its own.
@@ -28,10 +30,11 @@ Example: `lid on-90`, close the lid, and your Mac keeps running for 1h 30m. Then
 - Don't leave a running Mac closed inside a bag. It gets hot.
 - If you see "run lid setup", run `lid setup` in Terminal and enter your password once.
 
-## Uninstall
+## Update and uninstall
 
 ```
-sudo rm /usr/local/bin/lid /etc/sudoers.d/lid
+lid update
+lid uninstall
 ```
 
 ## How it works

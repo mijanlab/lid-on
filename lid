@@ -26,6 +26,8 @@ lid: stay awake with the lid closed
   lid off            go back to normal sleep now
   lid check          show whether it is on and the time left
   lid setup          one-time admin password, then no more prompts
+  lid update         get the latest version
+  lid uninstall      remove lid completely
   lid help           this list
 
 Tip: don't leave a running Mac closed in a bag. It gets hot.
@@ -41,6 +43,13 @@ case ${1:-help} in
     sudo sh -c "visudo -cf $f && install -m 440 -o root -g wheel $f /etc/sudoers.d/lid" \
       && echo "Done. lid no longer asks for a password."
     rm -f $f ;;
+  update)
+    tmp=$(mktemp)
+    curl -fsSL https://raw.githubusercontent.com/mijanlab/lid-on/main/lid -o $tmp && zsh -n $tmp \
+      && sudo install -m 755 $tmp /usr/local/bin/lid && echo "Updated." ; rm -f $tmp; exit ;;
+  uninstall)
+    sudo -n $PM -a disablesleep 0 2>/dev/null; pkill -f lid-timer; rm -f $STATE
+    sudo rm -f /usr/local/bin/lid /etc/sudoers.d/lid && echo "lid removed."; exit ;;
   off)
     sudo -n $PM -a disablesleep 0 2>/dev/null || need_setup
     pkill -f lid-timer; rm -f $STATE; echo "Lid-closed awake OFF." ;;
